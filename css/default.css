@@ -1,0 +1,47 @@
+﻿body{
+    margin:0px;
+    background:black;
+    height: 100%;
+    width: 100%;
+}
+
+.text {
+    font-size: 15px;
+    color: white;
+}
+
+.button {
+    font-size: 25px;
+    color: gold;
+    text-shadow: 1px 1px 2px black, 0 0 1em white, 0 0 0.2em white; 
+    margin-top: 2%;
+    background-color: black;
+}
+
+.question {
+    font-size: 35px;
+    color: white;
+}
+
+.score {
+    font-size: 28px;
+    color: white;
+}
+
+.shadow1 {
+    text-shadow: 1px 1px 2px brown, 0 0 1em black, 0 0 0.2em white;
+}
+
+.shadow2 {
+    text-shadow: 1px 1px 2px gold, 0 0 1em black, 0 0 0.2em white;
+}
+
+.shadow3 {
+    text-shadow: 1px 1px 2px black, 0 0 1em green, 0 0 0.2em white;
+    float: left;
+}
+
+.shadow4 {
+    text-shadow: 1px 1px 2px black, 0 0 1em red, 0 0 0.2em white;
+    float: right;
+}
