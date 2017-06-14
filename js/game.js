@@ -6,9 +6,9 @@ var score = 0
 function setDemographics() {
     $("#container").append('<div style="height: 15%"></div>')
     $("#container").append('<fieldset id="demographics">' +
-        
+
         //Participant number
-        '<p class="question shadow2"> Participant number:</p>' + 
+        '<p class="question shadow2"> Participant number:</p>' +
         '<input type="number" name="pnum" class="question shadow1" style="margin-top: 1%; background-color: black; width: 30%" size="20" value=""></div>' +
 
         // Gender
@@ -16,7 +16,7 @@ function setDemographics() {
         '<div><div class="question shadow1" style="float: left"><input type="radio" class="rank" style="height: 24px; width: 24px" id="m" name="gender" value="m" /> Male ♂</div>' +
         '<div class="question shadow1" style="float: center"><input type="radio" class="rank" style="height: 24px; width: 24px" id="f" name="gender" value="f" /> Female ♀</h>' +
         '<div class="question shadow1" style="float: right"><input type="radio" class="rank" style="height: 24px; width: 24px" id="o" name="gender" value="o" /> Other ☿</div></div>' +
-        
+
         // Age
         '<div style="margin-top:10%; padding-top: 10%"><p class="question shadow2"> Please specify your age:</p>' +
         '<input type="number" name="age" class="question shadow1" style="margin-top: 1%; background-color: black; width: 30%" size="20" value=""></div>')
@@ -74,9 +74,9 @@ function nextSound() {
 /* Selects sound corresponding to previously generated random value */
 function chooseSound(n) {
     var sound = "";
-  
+
     //  E.g. if n=1 then sound = 0000. Sound format "ABCD" -> A: Base - B: Intention - C: Shape - D: Gender
-    if (n <= 9) { sound += "B"} else { sound += "H" };
+    if (n <= 9) { sound += "B" } else { sound += "H" };
     if (n <= 4 || (9 <= n && n <= 12)) { sound += "A" } else { sound += "D" };
     if (n <= 2 || (5 <= n && n <= 6) || (9 <= n && n <= 10) || (13 <= n && n <= 14)) { sound += "B" } else { sound += "T" };
     switch (n % 2) {
@@ -84,11 +84,11 @@ function chooseSound(n) {
             sound += "F"; break;
         case 1:
             sound += "M"; break;
-      
+
     }
-    if (n == 17) {sound="BN"} else if (n==18) {sound="HN"}
+    if (n == 17) { sound = "BN" } else if (n == 18) { sound = "HN" }
     return sound
-    }
+}
 
 
 /* Updates screen according to player action and current sound */
@@ -113,17 +113,19 @@ function setScreenLayout(enterDoor) {
         }
 
         // fill screen
-        $("#container").append('<img id="door" src="images/' + door + '.png" style="width: 100%; height: 100%" />')
+        $("#container").append('<img id="door" src="images/' + door + '.png" style="width: 60%; height: 60%" />')
         $("#container").append('<p class="text shadow2">' + action + '</p>')
         $("#container").append('<p class="text shadow1">Move mouse over door to ask robot for help.</p>')
         $("#container").append('<p class="question shadow2"> Should you enter this door? </p>')
-        $("#container").append('<a class="question shadow3" href="#" onclick="submit(true);return false;"> Yes </a>')
-        $("#container").append('<a class="question shadow4" href="#" onclick="submit(false);return false;"> No </a>')
+        $("#container").append('<a id="yes" class="question shadow3" href="#" onclick="return false;"> Yes </a>')
+        $("#container").append('<a id="no" class="question shadow4" href="#" onclick="return false;"> No </a>')
+        $("#yes").one("click", function () { submit(true); })
+        $("#no").one("click", function () { submit(false); })
         $("#container > *").fadeOut()
         $("#container").fadeIn(1500)
         $("#container > #door").fadeIn(1500)
         $("#container > .text").fadeIn(5000)
-        
+
         // Set sound player according to current sound
         setPlayer(sound);
 
@@ -144,13 +146,13 @@ function setScreenLayout(enterDoor) {
 /* store participant action and update score accordingly */
 function submit(enterDoor) {
     readSound(sound)
-    localStorage.setItem(sound, + !enterDoor) // stored as 0 = did not enter; 1 = entered
-    
+    localStorage.setItem(sound, +enterDoor) // stored as 0 = did not enter; 1 = entered
+
     // Increase score if player guessed robot intention correctly
-    if ((sound[1] == "A" && enterDoor) || (sound[1] == "D" && !enterDoor))  { score += 1 }
+    if ((sound[1] == "A" && enterDoor) || (sound[1] == "D" && !enterDoor)) { score += 1 }
     console.log("Robot feedback: " + intention + " Player entered door: " + enterDoor)
-    console.log("Current score: "+score)
-    
+    console.log("Current score: " + score)
+
     // Proceed to new screen
     setScreenLayout(enterDoor)
 }
@@ -179,7 +181,7 @@ function complete() {
     var link = document.createElement("a");
     link.setAttribute("href", encodedUri);
     link.setAttribute("download", "P" + localStorage.getItem("pnum") + "_" + ts + ".csv");
-   
+
     link.click();
 
     // Display final screen and score to participant 
@@ -192,10 +194,10 @@ function complete() {
 
     setTimeout(function () {
         action = "You have found your way out of the dungeon."
-        $("#container").append('<img id="door" src="images/outside.png" style="width: 100%; height: 100%" />')
+        $("#container").append('<img id="door" src="images/outside.png" style="width: 60%; height: 60%" />')
         $("#container").append('<p class="score shadow1" style:"position: absolute; top: 25%">' + action + '</p>')
         $("#container").append('<p class="score shadow2"> Your score is <font style="font-weight: bold" color="gold">' + score + '</font> out of 16.</p>')
-       
+
         $("#container").fadeIn(5000)
     }, 2000);
 
