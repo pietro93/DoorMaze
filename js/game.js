@@ -103,49 +103,49 @@ function setScreenLayout(enterDoor) {
 
     sound = nextSound()
 
-    setTimeout(function () {
-        if (enterDoor) { action = "You entered the door and walked until you reached another door." } else { action = "You searched for a different door to enter." }
-        door = "door" + Math.floor((Math.random() * 9))
+    if (sound) {
+        setTimeout(function () {
+            if (enterDoor) { action = "You entered the door and walked until you reached another door." } else { action = "You searched for a different door to enter." }
+            door = "door" + Math.floor((Math.random() * 9))
 
-        /* First game screen, introduce scenario */
-        if (sounds.length == 17) {
-            action = "You are in a maze dungeon with your robot companion. It will guide you outside if you listen to it - every time you approach a door, it will tell you whether you should open it or search for a different one."
-        }
+            /* First game screen, introduce scenario */
+            if (sounds.length == 17) {
+                action = "You are in a maze dungeon with your robot companion. It will guide you outside if you listen to it - every time you approach a door, it will tell you whether you should open it or search for a different one."
+            }
 
-        // fill screen
-        $("#container").append('<img id="door" src="images/' + door + '.png" style="width: 60%; height: 60%" />')
-        $("#container").append('<p class="text shadow2">' + action + '</p>')
-        $("#container").append('<p class="text shadow1">Move mouse over door to ask robot for help.</p>')
-        $("#container").append('<p class="question shadow2"> Should you enter this door? </p>')
-        $("#container").append('<a id="yes" class="question shadow3" href="#" onclick="return false;"> Yes </a>')
-        $("#container").append('<a id="no" class="question shadow4" href="#" onclick="return false;"> No </a>')
-        $("#yes").one("click", function () { submit(true); })
-        $("#no").one("click", function () { submit(false); })
-        $("#container > *").fadeOut()
-        $("#container").fadeIn(1500)
-        $("#container > #door").fadeIn(1500)
-        $("#container > .text").fadeIn(5000)
+            // fill screen
+            $("#container").append('<img id="door" src="images/' + door + '.png" style="width: 60%; height: 60%" />')
+            $("#container").append('<p class="text shadow2">' + action + '</p>')
+            $("#container").append('<p class="text shadow1">Move mouse over door to ask robot for help.</p>')
+            $("#container").append('<p class="question shadow2"> Should you enter this door? </p>')
+            $("#container").append('<a id="yes" class="question shadow3" href="#" onclick="return false;"> Yes </a>')
+            $("#container").append('<a id="no" class="question shadow4" href="#" onclick="return false;"> No </a>')
+            $("#yes").one("click", function () { submit(true); })
+            $("#no").one("click", function () { submit(false); })
+            $("#container > *").fadeOut()
+            $("#container").fadeIn(1500)
+            $("#container > #door").fadeIn(1500)
+            $("#container > .text").fadeIn(5000)
 
-        // Set sound player according to current sound
-        setPlayer(sound);
+            // Set sound player according to current sound
+            setPlayer(sound);
 
-        // Play sound when players hovers mouse over door
-        $(document).ready(function () {
-            $("#door").hover(function () {
-                audio.play();
-                $("#container > .question").fadeIn(4000)
-            },
-            function () {
-                audio.load();
+            // Play sound when players hovers mouse over door
+            $(document).ready(function () {
+                $("#door").hover(function () {
+                    audio.play();
+                    $("#container > .question").fadeIn(4000)
+                },
+                function () {
+                    audio.load();
+                });
             });
-        });
-    }, 2000);
-
+        }, 2000);
+    }
 }
 
 /* store participant action and update score accordingly */
 function submit(enterDoor) {
-    readSound(sound)
     localStorage.setItem(sound, +enterDoor) // stored as 0 = did not enter; 1 = entered
 
     // Increase score if player guessed robot intention correctly
