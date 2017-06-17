@@ -19,8 +19,10 @@ function setDemographics() {
 
         // Age
         '<div style="margin-top:10%; padding-top: 10%"><p class="question shadow2"> Please specify your age:</p>' +
-        '<input type="number" name="age" class="question shadow1" style="margin-top: 1%; background-color: black; width: 30%" size="20" value=""></div>')
-    $("#container").append('<input type="submit" name="next" id="NextButton" value="START" class="nextbutton button" onclick="startGame()"/>')
+        '<input type="number" name="age" class="question shadow1" style="margin-top: 1%; background-color: black; width: 30%" size="20" value=""></div>'+
+       
+        '<input type="checkbox" name="checkbox" value="check" id="agree"  /> <font class="question shadow1" style="font-size: 15px"> I voluntarily agree to take part in this study </font></form>')
+    $("#container").append('<input type="submit" name="next" id="NextButton" value="START" class="nextbutton button" onclick="startGame()"/> ')
 }
 
 /* Gets value of radio button */
@@ -47,8 +49,8 @@ function startGame() {
     localStorage.setItem("age", $("input[name='age']").val())
     console.log("Participant number: " + localStorage.getItem("pnum") + " Gender:" + localStorage.getItem("gender") + " Age:" + localStorage.getItem("age"));
 
-    //forms must not be null and participant must be at least 18 years old
-    if (localStorage.getItem("age") >= 18 && localStorage.getItem("pnum") > 0) { setScreenLayout(null) }
+    //forms must not be null and participant must be at least 18 years old and agreeing to participate in study
+    if (localStorage.getItem("age") >= 18 && localStorage.getItem("pnum") > 0 && document.getElementById("agree").checked) { setScreenLayout(null) }
     else { $("#container").append('<div style="margin-top: 3%; position:absolute"><p class="text shadow4"> ⚠ Please insert all the required information. You must be at least 18 years old to proceed. ⚠</p></div>') }
 }
 
